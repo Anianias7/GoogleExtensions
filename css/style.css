@@ -1,0 +1,48 @@
+body {
+width: 700px;
+background-color: white;
+color: black;
+padding-right: 20px;
+}
+
+.title {
+    color: rgb(68, 157, 68);
+    font-family: "Open Sans", sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+
+.header {
+    display: flex;
+    align-items: center;
+}
+
+.icon-container {
+    background-color: #2A6E17;
+    padding: 8px;
+    text-align: center;
+    color: white;
+    border-radius: 100%;
+    width: 12px;
+    height: 12px;
+    margin-left: 5px;
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.my-icon {
+    font-size: 12px;
+}
+
+/* .item {
+    border-top: 1px #ddd solid;
+} */
+
+.text {
+    color: #666;
+    font-size: 'Open Sans', sans-serif; 
+}
+
