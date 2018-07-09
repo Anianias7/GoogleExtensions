@@ -8,16 +8,17 @@ window.addEventListener('DOMContentLoaded', function(){
             var row = document.createElement('tr');
             var text = document.createElement('td');
             var average = document.createElement('td');
-            // var yearAverage = document.createElement('td');
+            var yearAverage = document.createElement('td');
             text.appendChild(document.createTextNode(averageArrayInfo[i][0]));
             average.appendChild(document.createTextNode(averageArrayInfo[i][1]));
-            // yearAverage.appendChild(document.createTextNode("Buuu"));
+            yearAverage.appendChild(document.createTextNode(averageArrayInfo[i][2]));
             row.appendChild(text);
             row.appendChild(average);
-            // row.appendChild(yearAverage);
+            row.appendChild(yearAverage);
             row.classList.add('table-row');
             text.classList.add('text');
             average.classList.add('average');
+            yearAverage.classList.add('yearAverage');
             tableBody.appendChild(row);
         }
         return tableBody;
@@ -31,7 +32,7 @@ window.addEventListener('DOMContentLoaded', function(){
     var id = tabs[0].id;
         chrome.tabs.executeScript(
             id,
-            {file: "cos.js"}
+            {file: "app.js"}
         , function(res) {
             var table = document.querySelector(".semester-table");
             table.appendChild(createAverageSemesterInfoUl(res[0]))

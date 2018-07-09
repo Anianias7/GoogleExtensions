@@ -20,7 +20,7 @@ tr {
 }
 
 
-.average {
+.average, .yearAverage {
     font-weight: bold;
     color: #2A6E17;
 
