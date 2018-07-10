@@ -4,7 +4,6 @@ window.addEventListener('DOMContentLoaded', function(){
     var createAverageSemesterInfoUl = (averageArrayInfo, years) => {
         var tableBody = document.createElement('tbody');
         var shouldSpan = false;
-        var isPair = false;
         tableBody.classList.add("semester-table-body");
         for(var i = 0; i < averageArrayInfo.length; i++){
             var row = document.createElement('tr');
@@ -16,35 +15,15 @@ window.addEventListener('DOMContentLoaded', function(){
             yearAverage.appendChild(document.createTextNode(averageArrayInfo[i][2]));
             row.appendChild(text);
             row.appendChild(average);
-            if(i + 1 < years.length){
                 if(years[i] === years[i+1]) {
                     shouldSpan = true;
-                    isPair = true;
-                }
-                else {
+                    yearAverage.setAttribute('rowspan', 2);
+                    row.appendChild(yearAverage);  
+                } else if(!shouldSpan){
+                    row.appendChild(yearAverage); 
+                } else {
                     shouldSpan = false;
-                    if(years[i-1] === years[i]){
-                        isPair = true;
-                    }   
-                    else{
-                        isPair = false;
-                    }
                 }
-            }
-            else{
-                shouldSpan = false;
-                if((years[i-1] === years[i])){
-                    isPair = true;
-                }else{
-                    isPair = false;
-                }
-            }
-            if(shouldSpan){
-                yearAverage.setAttribute('rowspan', 2);
-                row.appendChild(yearAverage);
-            }else if(!shouldSpan && !isPair) {
-                row.appendChild(yearAverage);
-            }
             row.classList.add('table-row');
             text.classList.add('text');
             average.classList.add('average');

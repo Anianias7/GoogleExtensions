@@ -1,6 +1,3 @@
-// var button = document.querySelector('#expand');
-// button.click();
-
 var marksInfoHeader = [...document.querySelectorAll('.semester_headers')];
 
 var marksInfoTable = [...document.querySelectorAll('.semester')];
@@ -12,7 +9,6 @@ var listOfSemestersInfo = marksInfoHeader.map(header => header.firstElementChild
 var listOfYearsNumbers = listOfSemestersInfo.map(header => header.split(',')[1].split(" ")[3]);
 
 var uniqueYearsNumbers = [...new Set(listOfYearsNumbers)].sort((a,b) => a - b);
-console.log(uniqueYearsNumbers);
 
 //Lista semestrów [6,5,4,3,2]
 var listOfSemestersNumbers = listOfSemestersInfo.map(header => header.split(',')[2].split(" ")[3]);
@@ -26,7 +22,7 @@ var groupBy = (xs, keys) => {
     })
     , {});
   };
-
+  
 //Lista ectsów dla ocen z semestrów 
 //marksInfoTable
 var ectsForSemesters = marksInfoTable.map(table => 
@@ -45,11 +41,11 @@ var ectsForSemesters = marksInfoTable.map(table =>
 var marksForSemesters = marksInfoTable.map(table => 
                                     [...table.children].map(el => {
                                         var markChild = [...el.children][5];
-                                        return markChild.innerText.substring(0,3);
+                                        var mark = parseFloat(markChild.innerText.substring(0,3))
+                                        return isNaN(mark) ? 0 : mark;
                                         }
                                         ));
-
-
+console.log(marksInfoTable);
 // listOfEctsForSemesters
 var sumOfEcts = (arr) => (arr).map(semesterEcts => 
                                         semesterEcts.map(parseFloat).reduce((acc, curr) => 
@@ -69,8 +65,6 @@ var zip = (arr1, arr2, transformFn) => {
 
 var flatten = (arr) => arr.reduce((acc, val) => acc.concat(val), [])
 
-
-
 var weightedMarks = (marksForSemesters, ectsForSemesters) => zip(marksForSemesters, 
                                                                  ectsForSemesters,
                                                                  (marks, ects) => zip(marks, ects, transform))
@@ -88,7 +82,6 @@ var semesterAverageAndInfo = zip(listOfSemestersInfo,
 
 //Objekt pogrupowanych numerów semestrów dla poszczególnych lat
 var groupedSemesters = groupBy(listOfSemestersNumbers, listOfYearsNumbers);
-
 
 
 //Ects dla poszczególnych lat 
@@ -117,9 +110,6 @@ var averageForYears = () => {
     }), {})
 } 
 
-console.log("halyna", averageForYears())
-
-
 //Średnia dla roku przyporządkowana do miesięcy
 var yearAveragesForSemesters = (groupedSemesters, averageForYears) => {
     var years = [...Object.keys(groupedSemesters)];
@@ -133,8 +123,6 @@ var averageSemestersInfo = zip(semesterAverageAndInfo,
                                (infoAndSemesterAverage, yearAverage) => infoAndSemesterAverage.concat(yearAverage));
 
 
-    
-console.log("a inf", averageSemestersInfo);
 
 ({
     info: averageSemestersInfo,

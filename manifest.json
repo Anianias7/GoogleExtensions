@@ -1,7 +1,7 @@
 {
-    "name": "Pwr Average Extensions",
-    "description" : "Pwr Average Extensions",
-    "version": "1.0",
+    "name": "Pwr Average TEST",
+    "description" : "Pwr Average Extension",
+    "version": "1.4",
     "manifest_version": 2,
     "background": {
         "scripts": ["app.js"],
