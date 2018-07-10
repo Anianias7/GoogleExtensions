@@ -6,12 +6,18 @@ var marksInfoTable = [...document.querySelectorAll('.semester')];
 var listOfSemestersInfo = marksInfoHeader.map(header => header.firstElementChild.innerText);
 
 //Lista lat [3,3,2,2,1]
-var listOfYearsNumbers = listOfSemestersInfo.map(header => header.split(',')[1].split(" ")[3]);
+var listOfYearsNumbers = listOfSemestersInfo.map(header => {
+    var yearInfoArray = header.split(',')[1].split(" ");
+    return yearInfoArray[yearInfoArray.length - 1];
+});
 
 var uniqueYearsNumbers = [...new Set(listOfYearsNumbers)].sort((a,b) => a - b);
 
 //Lista semestrów [6,5,4,3,2]
-var listOfSemestersNumbers = listOfSemestersInfo.map(header => header.split(',')[2].split(" ")[3]);
+var listOfSemestersNumbers = listOfSemestersInfo.map(header => {
+    var semesterInfoArray = header.split(',')[2].split(" ");
+    return semesterInfoArray[semesterInfoArray.length -1]
+});
 
 //Zwraca rok oraz przyporządkowane mu indeksy semestrów z listy [6,5,4,3,2]
 var groupBy = (xs, keys) => {
@@ -45,8 +51,8 @@ var marksForSemesters = marksInfoTable.map(table =>
                                         return isNaN(mark) ? 0 : mark;
                                         }
                                         ));
-console.log(marksInfoTable);
-// listOfEctsForSemesters
+
+
 var sumOfEcts = (arr) => (arr).map(semesterEcts => 
                                         semesterEcts.map(parseFloat).reduce((acc, curr) => 
                                                                             acc + curr, 0)
@@ -103,7 +109,6 @@ var sumOfWeightedMarksForYears = sumOfWeightedMarks(weightedMarksForYears);
 var averageForYears = () => {
     var numOfYears = Math.max(...listOfYearsNumbers);
     var avg = average(sumOfWeightedMarksForYears, sumOfEctsForYear);
-    console.log("dupa", avg);
     return avg.reduce((acc, val, index) => ({
         ...acc,
         [uniqueYearsNumbers[index]]: val
