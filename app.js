@@ -11,6 +11,9 @@ var listOfSemestersInfo = marksInfoHeader.map(header => header.firstElementChild
 //Lista lat [3,3,2,2,1]
 var listOfYearsNumbers = listOfSemestersInfo.map(header => header.split(',')[1].split(" ")[3]);
 
+var uniqueYearsNumbers = [...new Set(listOfYearsNumbers)].sort((a,b) => a - b);
+console.log(uniqueYearsNumbers);
+
 //Lista semestrów [6,5,4,3,2]
 var listOfSemestersNumbers = listOfSemestersInfo.map(header => header.split(',')[2].split(" ")[3]);
 
@@ -23,10 +26,6 @@ var groupBy = (xs, keys) => {
     })
     , {});
   };
-
-  console.log(listOfSemestersNumbers);
-  console.log(listOfYearsNumbers);
-  console.log(groupBy(listOfSemestersNumbers, listOfYearsNumbers));
 
 //Lista ectsów dla ocen z semestrów 
 //marksInfoTable
@@ -90,6 +89,8 @@ var semesterAverageAndInfo = zip(listOfSemestersInfo,
 //Objekt pogrupowanych numerów semestrów dla poszczególnych lat
 var groupedSemesters = groupBy(listOfSemestersNumbers, listOfYearsNumbers);
 
+
+
 //Ects dla poszczególnych lat 
 var ectsForYears = Object.values(groupedSemesters).map(el => el.reduce((acc, val) => acc.concat(ectsForSemesters[val]), []));
 
@@ -106,20 +107,37 @@ var weightedMarksForYears = weightedMarks(marksForYears, ectsForYears);
 var sumOfWeightedMarksForYears = sumOfWeightedMarks(weightedMarksForYears);
 
 //Średnia ważona dla lat
-var averageForYears = average(sumOfWeightedMarksForYears, sumOfEctsForYear)
-console.log(averageForYears);
+var averageForYears = () => {
+    var numOfYears = Math.max(...listOfYearsNumbers);
+    var avg = average(sumOfWeightedMarksForYears, sumOfEctsForYear);
+    console.log("dupa", avg);
+    return avg.reduce((acc, val, index) => ({
+        ...acc,
+        [uniqueYearsNumbers[index]]: val
+    }), {})
+} 
+
+console.log("halyna", averageForYears())
 
 
 //Średnia dla roku przyporządkowana do miesięcy
 var yearAveragesForSemesters = (groupedSemesters, averageForYears) => {
     var years = [...Object.keys(groupedSemesters)];
-    return years.sort((a,b) => a - b).map(x => groupedSemesters[x].map(el => averageForYears[x-1]))
+    return years.sort((a,b) => a - b).map(x => groupedSemesters[x].map(el => averageForYears[x]))
 }
+
 
                                
 var averageSemestersInfo = zip(semesterAverageAndInfo, 
-                               (flatten(yearAveragesForSemesters(groupedSemesters, averageForYears))).reverse(), 
-                               (infoAndSemesterAverage, yearAverage) => infoAndSemesterAverage.concat(yearAverage))
+                               flatten(yearAveragesForSemesters(groupedSemesters, averageForYears())).reverse(), 
+                               (infoAndSemesterAverage, yearAverage) => infoAndSemesterAverage.concat(yearAverage));
 
 
-averageSemestersInfo;
+    
+console.log("a inf", averageSemestersInfo);
+
+({
+    info: averageSemestersInfo,
+    years: listOfYearsNumbers
+
+});
