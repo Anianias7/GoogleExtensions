@@ -44,7 +44,6 @@ window.addEventListener('DOMContentLoaded', function(){
             {file: "app.js"}
         , function(res) {
             var table = document.querySelector(".semester-table");
-            console.log("buuu", res[0].info)
             table.appendChild(createAverageSemesterInfoUl(res[0].info, res[0].years))
         })
     })
